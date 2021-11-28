@@ -200,6 +200,9 @@
                 }
 
                 if (secondsLeft > 0) {
+                    months = parseInt((secondsLeft / 86400) / 30, 10);
+                    secondsLeft = (secondsLeft % 86400) % 30;
+                    
                     days = parseInt(secondsLeft / 86400, 10);
                     secondsLeft = secondsLeft % 86400;
 
