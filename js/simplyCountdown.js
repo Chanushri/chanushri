@@ -96,6 +96,7 @@
 
         if (!parameters.inline) {
             return {
+                months: createCountdownElt(countdown, parameters, 'simply-months-section'),
                 days: createCountdownElt(countdown, parameters, 'simply-days-section'),
                 hours: createCountdownElt(countdown, parameters, 'simply-hours-section'),
                 minutes: createCountdownElt(countdown, parameters, 'simply-minutes-section'),
@@ -122,6 +123,7 @@
                 minutes: 0,
                 seconds: 0,
                 words: {
+                    months: 'months',
                     days: 'day',
                     hours: 'hour',
                     minutes: 'minute',
@@ -147,6 +149,7 @@
             now,
             nowUtc,
             secondsLeft,
+            months,
             days,
             hours,
             minutes,
@@ -180,7 +183,8 @@
                 refresh;
 
             refresh = function () {
-                var dayWord,
+                var monthWord,
+                    dayWord,
                     hourWord,
                     minuteWord,
                     secondWord;
@@ -205,6 +209,7 @@
                     minutes = parseInt(secondsLeft / 60, 10);
                     seconds = parseInt(secondsLeft % 60, 10);
                 } else {
+                    months = 0;
                     days = 0;
                     hours = 0;
                     minutes = 0;
@@ -214,6 +219,11 @@
                 }
 
                 if (parameters.plural) {
+                    
+                    monthWord = months > 1
+                        ? parameters.words.months + parameters.words.pluralLetter
+                        : parameters.words.months;
+                    
                     dayWord = days > 1
                         ? parameters.words.days + parameters.words.pluralLetter
                         : parameters.words.days;
@@ -231,6 +241,7 @@
                         : parameters.words.seconds;
 
                 } else {
+                    monthWord = parameters.words.months;
                     dayWord = parameters.words.days;
                     hourWord = parameters.words.hours;
                     minuteWord = parameters.words.minutes;
@@ -240,12 +251,16 @@
                 /* display an inline countdown into a span tag */
                 if (parameters.inline) {
                     countdown.innerHTML =
+                        months + ' ' + monthWord + ', ' +
                         days + ' ' + dayWord + ', ' +
                         hours + ' ' + hourWord + ', ' +
                         minutes + ' ' + minuteWord + ', ' +
                         seconds + ' ' + secondWord + '.';
 
                 } else {
+                    fullCountDown.months.amount.textContent = (parameters.zeroPad && months.toString().length < 2 ? '0' : '') + months;
+                    fullCountDown.months.word.textContent = monthWord;
+                    
                     fullCountDown.days.amount.textContent = (parameters.zeroPad && days.toString().length < 2 ? '0' : '') + days;
                     fullCountDown.days.word.textContent = dayWord;
 
