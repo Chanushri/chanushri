@@ -1,1 +1,1 @@
-# chanushri.gtihub.io
+# chanushri.github.io
